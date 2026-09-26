@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#065f46">
+<meta name="description" content="Plan nutricional semanal para Gaston, hipocalórico. Proporciones de verdura, carne y cereales por día.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Plan Nutricional de GASTON</title>
+<style>
+:root{
+  --g1:#065f46; --g2:#047857; --g3:#10b981; --g4:#d1fae5;
+  --carne:#ef4444; --cereal:#f59e0b; --verdura:#10b981;
+  --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f1f5f9;
+  --r:16px; --sp:16px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  line-height:1.5;padding-bottom:32px;
+}
+h1,h2,h3,h4{margin:0;line-height:1.2}
+p{margin:0}
+button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
+ul{margin:0;padding:0;list-style:none}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:0 1px 3px rgba(15,23,42,.06)}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 var(--sp)}
+
+/* ---------- HERO ---------- */
+.hero{
+  background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 55%,#0d9488 100%);
+  color:#fff;padding:22px 0 30px;position:relative;overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;
+  background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);
+}
+.hero .eyebrow{
+  display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.3);padding:5px 12px;border-radius:999px;
+  font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+}
+.hero h1{font-size:clamp(22px,6vw,34px);font-weight:800;margin:12px 0 4px}
+.hero p{color:#d1fae5;font-size:14px}
+.hero-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);
+  padding:8px 12px;border-radius:12px;font-size:13px;font-weight:600;display:flex;gap:6px;align-items:center
+}
+.chip b{color:#fde68a}
+
+/* ---------- STICKY DÍAS ---------- */
+.daybar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.daybar .wrap{padding-top:10px;padding-bottom:10px}
+.daybar h2{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;font-weight:700}
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(min-width:640px){.days{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:900px){.days{grid-template-columns:repeat(7,1fr)}}
+.day{
+  position:relative;text-align:left;padding:10px 10px 11px;border-radius:14px;
+  background:#f8fafc;border:1.5px solid var(--line);transition:.18s;overflow:hidden;
+}
+.day span.n{display:block;font-weight:800;font-size:15px}
+.day span.s{display:block;font-size:10.5px;color:var(--muted);margin-top:1px;line-height:1.25}
+.day .bar{display:flex;height:5px;border-radius:99px;overflow:hidden;margin-top:8px;background:#e2e8f0}
+.day .bar i{display:block;height:100%}
+.day.on{background:linear-gradient(140deg,var(--g2),var(--g3));border-color:var(--g3);box-shadow:0 6px 16px rgba(16,185,129,.35);transform:translateY(-1px)}
+.day.on span.n,.day.on span.s{color:#fff}
+.day.on .bar{background:rgba(255,255,255,.3)}
+.day .hoy{
+  position:absolute;top:6px;right:6px;background:#fde68a;color:#78350f;
+  font-size:9px;font-weight:800;padding:2px 6px;border-radius:99px;letter-spacing:.3px
+}
+
+/* ---------- SECCIONES ---------- */
+main{padding-top:18px;display:flex;flex-direction:column;gap:16px}
+.sec-t{font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+
+/* resumen del día */
+.today{padding:18px;color:#fff;border:0;background:linear-gradient(135deg,var(--g1),var(--g2) 60%,#0d9488);border-radius:20px;box-shadow:0 10px 24px rgba(6,95,70,.28)}
+.today .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.today .d{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#a7f3d0}
+.today h3{font-size:clamp(19px,5.5vw,26px);font-weight:800;margin-top:4px}
+.today .tag{background:#fde68a;color:#78350f;font-size:11px;font-weight:800;padding:5px 10px;border-radius:99px;white-space:nowrap}
+.platebar{display:flex;height:16px;border-radius:99px;overflow:hidden;margin:16px 0 8px;background:rgba(255,255,255,.2);box-shadow:inset 0 1px 2px rgba(0,0,0,.15)}
+.platebar i{display:block;height:100%;transition:width .4s}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12.5px;font-weight:600}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend u{width:11px;height:11px;border-radius:4px;display:block}
+
+/* comidas */
+.meals{display:grid;gap:10px}
+@media(min-width:760px){.meals{grid-template-columns:1fr 1fr}}
+.meal{padding:14px 16px;display:flex;gap:12px;align-items:flex-start;border-left:5px solid var(--line)}
+.meal .ic{font-size:22px;line-height:1;flex-shrink:0;width:26px;text-align:center}
+.meal h4{font-size:11.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.meal p{font-size:15px;color:#1e293b}
+.meal.main{background:linear-gradient(180deg,#f0fdf4,#fff);border-left-color:var(--g3);box-shadow:0 6px 18px rgba(16,185,129,.14)}
+.meal.main p{font-weight:700;font-size:16px}
+
+/* plato */
+.platewrap{display:grid;gap:18px;justify-items:center;padding:20px}
+@media(min-width:640px){.platewrap{grid-template-columns:auto 1fr;align-items:center;justify-items:start}}
+.plate{
+  width:min(240px,68vw);aspect-ratio:1;border-radius:50%;position:relative;flex-shrink:0;
+  box-shadow:0 12px 30px rgba(15,23,42,.18),inset 0 0 0 8px #fff;
+  display:grid;place-items:center;
+}
+.plate .mid{width:56%;aspect-ratio:1;border-radius:50%;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.12);display:grid;place-items:center;text-align:center;padding:6px}
+.plate .mid b{font-size:15px;display:block}
+.plate .mid small{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.plist{width:100%;display:flex;flex-direction:column;gap:8px}
+.pitem{display:flex;align-items:center;gap:10px;background:#f8fafc;border:1px solid var(--line);padding:10px 12px;border-radius:12px;font-size:14px;font-weight:600}
+.pitem u{width:14px;height:14px;border-radius:5px;flex-shrink:0}
+.pitem b{margin-left:auto;font-size:15px;font-weight:800}
+.tip{font-size:12.5px;color:var(--muted);text-align:center;padding:0 16px 18px}
+
+/* listas */
+.lista{padding:18px;display:flex;flex-direction:column;gap:12px}
+.lrow{display:flex;gap:11px;font-size:14.5px;line-height:1.45}
+.lrow .b{width:22px;height:22px;border-radius:7px;flex-shrink:0;display:grid;place-items:center;font-size:12px;background:var(--g4);color:var(--g1);font-weight:800}
+.lrow b{color:var(--g1)}
+.warn{background:#fffbeb;border-color:#fde68a}
+.warn .b{background:#fef3c7;color:#92400e}
+.warn .lrow b{color:#92400e}
+.foot{text-align:center;color:var(--muted);font-size:12px;padding:24px 16px 8px}
+.fade{animation:f .35s ease}
+@keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">🍽️ Plan semanal hipocalórico</span>
+    <h1>Plan Nutricional de <strong>GASTON</strong></h1>
+    <p>Este plan es <strong style="color:#fff">para Gaston</strong> ·según indicaciones de la Lic. María Jorgelina Arce</p>
+    <div class="hero-chips">
+      <div class="chip">💧 Agua <b>3 L / día</b></div>
+      <div class="chip">🍽️ <b>5 a 6 comidas</b></div>
+      <div class="chip">🥗 Frutas y verduras <b>5 por día</b></div>
+    </div>
+  </div>
+</header>
+
+<nav class="daybar">
+  <div class="wrap">
+    <h2>Elegí el día 👇</h2>
+    <div class="days" id="days"></div>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- RESUMEN DEL DÍA SELECCIONADO -->
+  <section class="today" id="today"></section>
+
+  <!-- COMIDAS -->
+  <section>
+    <div class="sec-t">🕐 Comidas del día</div>
+    <div class="meals" id="meals"></div>
+  </section>
+
+  <!-- PLATO -->
+  <section>
+    <div class="sec-t">🍽️ Así se ve tu plato</div>
+    <div class="card">
+      <div class="platewrap">
+        <div class="plate" id="plate"><div class="mid"><div><b id="platePct">50%</b><small>verdura</small></div></div></div>
+        <div>
+          <div class="plist" id="plist"></div>
+        </div>
+      </div>
+      <p class="tip" id="tip"></p>
+    </div>
+  </section>
+
+  <!-- PERMITIDOS -->
+  <section>
+    <div class="sec-t">✅ Qué podés comer</div>
+    <div class="card lista">
+      <div class="lrow"><span class="b">V</span><div><b>Verduras:</b> acelga, apio, berenjena, lechuga, pepino, tomate, zapallito, zapallo, cebolla, remolacha, pimiento, ajo, chauchas.</div></div>
+      <div class="lrow"><span class="b">F</span><div><b>Frutas:</b> manzana, mandarina, naranja, ciruela, sandía, durazno, pera, frutilla, melón, pomelo, limón, ananá, damasco.</div></div>
+      <div class="lrow"><span class="b">L</span><div><b>Lácteos:</b> leche, yogur y queso <b>descremados</b>; queso untable o tybo.</div></div>
+      <div class="lrow"><span class="b">C</span><div><b>Cereales:</b> hasta 4 rodajas de pan negro por día o galletas de arroz.</div></div>
+      <div class="lrow"><span class="b">P</span><div><b>Proteínas:</b> vaca, pollo, pescado, cerdo, arveja o lenteja.</div></div>
+    </div>
+  </section>
+
+  <!-- RECOMENDACIONES -->
+  <section>
+    <div class="sec-t">💡 Recomendaciones</div>
+    <div class="card lista warn">
+      <div class="lrow"><span class="b">1</span><div>Hacé <b>5 o 6 comidas</b> al día. ¡No saltees ninguna!</div></div>
+      <div class="lrow"><span class="b">2</span><div>Tomá <b>1 vaso de agua antes</b> de cada almuerzo.</div></div>
+      <div class="lrow"><span class="b">3</span><div>Usá <b>azúcar y sal con moderación</b>, reemplazando por edulcorante.</div></div>
+      <div class="lrow"><span class="b">4</span><div>Si tenés hambre: <b>gelatina, infusión o una fruta</b> permitida.</div></div>
+      <div class="lrow"><span class="b">5</span><div><b>Evitá</b> fritos, fiambres, embutidos y golosinas.</div></div>
+      <div class="lrow"><span class="b">6</span><div>Cuidá el exceso de <b>papa, choclo, batata y calabaza</b>.</div></div>
+    </div>
+  </section>
+
+  <p class="foot">Plan nutricional de <strong>GASTON</strong> · Definido por la Lic. María Jorgelina Arce</p>
+</main>
+
+<script>
+const VERDURA = '#10b981', CARNE = '#ef4444', CEREAL = '#f59e0b';
+
+const BREAKFAST = 'Café con leche descremada o infusión + 4 rodajas de pan negro + queso untable o mermelada light (o queso y jamón) + 1 fruta.';
+const MID       = 'Infusión + 1 fruta + unas galletitas de arroz.';
+const SNACK     = '1 fruta + frutos secos (3 o 4, sin sal ni azúcar).';
+const DINNER    = 'Yogurt descremado + granola + 1 fruta + frutos secos.';
+const AGUA      = 'Tomá 1 vaso de agua antes de comer.';
+
+const MITAD_CARNE  = 'Mitad de verdura y mitad de carne (vaca, pollo, pescado, cerdo, arveja o lenteja).';
+const MITAD_CEREAL = 'Mitad de verdura + 25% de carne + 25% de arroz o fideos (fríos o calientes).';
+const SOLO_VERDURA = 'Plato 100% verdura: tarta, tortilla o milanesa de berenjena.';
+
+const V = { c: VERDURA, l: 'Verdura' };
+const P = { c: CARNE,   l: 'Carne / Proteína' };
+const G = { c: CEREAL,  l: 'Arroz o fideo' };
+
+const DAYS = [
+  { id:'lunes',     n:'Lunes',     tag:'½ verdura · ½ carne',   r:[{...V,p:50},{...P,p:50}],            l:MITAD_CARNE + ' ' + AGUA },
+  { id:'martes',    n:'Martes',    tag:'½ verdura · ¼ carne · ¼ cereal', r:[{...V,p:50},{...P,p:25},{...G,p:25}], l:MITAD_CEREAL + ' ' + AGUA },
+  { id:'miercoles', n:'Miércoles', tag:'½ verdura · ¼ carne · ¼ cereal', r:[{...V,p:50},{...P,p:25},{...G,p:25}], l:MITAD_CEREAL + ' ' + AGUA },
+  { id:'jueves',    n:'Jueves',    tag:'100% verdura',          r:[{...V,p:100}],                      l:SOLO_VERDURA + ' ' + AGUA },
+  { id:'viernes',   n:'Viernes',   tag:'½ verdura · ½ carne',   r:[{...V,p:50},{...P,p:50}],            l:MITAD_CARNE + ' ' + AGUA },
+  { id:'sabado',    n:'Sábado',    tag:'½ verdura · ½ carne',   r:[{...V,p:50},{...P,p:50}],            l:MITAD_CARNE + ' ' + AGUA },
+  { id:'domingo',   n:'Domingo',   tag:'½ verdura · ½ carne',   r:[{...V,p:50},{...P,p:50}],            l:MITAD_CARNE + ' ' + AGUA }
+];
+
+const ORDEN = ['domingo','lunes','martes','miercoles','jueves','viernes','sabado'];
+const hoyId = ORDEN[new Date().getDay()];
+let cur = hoyId;
+
+const $ = id => document.getElementById(id);
+const barras = r => r.map(x => `<i style="width:${x.p}%;background:${x.c}"></i>`).join('');
+const frase = r => r.length === 1
+  ? r[0].p + '% ' + r[0].l.toLowerCase()
+  : r.slice(0, -1).map(x => x.p + '% ' + x.l.toLowerCase()).join(', ') + ' y ' + r[r.length-1].p + '% ' + r[r.length-1].l.toLowerCase();
+
+function renderDays(){
+  $('days').innerHTML = DAYS.map(d => `
+    <button class="day${d.id === cur ? ' on' : ''}" data-id="${d.id}" aria-pressed="${d.id === cur}">
+      ${d.id === hoyId ? '<span class="hoy">HOY</span>' : ''}
+      <span class="n">${d.n}</span>
+      <span class="s">${d.tag}</span>
+      <span class="bar">${barras(d.r)}</span>
+    </button>`).join('');
+  $('days').querySelectorAll('.day').forEach(b => b.onclick = () => { cur = b.dataset.id; render(); });
+}
+
+function renderComidas(d){
+  $('meals').innerHTML = `
+    <div class="card meal"><span class="ic">🌅</span><div><h4>Desayuno</h4><p>${BREAKFAST}</p></div></div>
+    <div class="card meal main"><span class="ic">☀️</span><div><h4>Almuerzo</h4><p>${d.l}</p></div></div>
+    <div class="card meal"><span class="ic">🍎</span><div><h4>Media mañana</h4><p>${MID}</p></div></div>
+    <div class="card meal"><span class="ic">🥜</span><div><h4>Merienda</h4><p>${SNACK}</p></div></div>
+    <div class="card meal"><span class="ic">🌙</span><div><h4>Cena</h4><p>${DINNER}</p></div></div>`;
+}
+
+function renderPlato(d){
+  $('today').innerHTML = `
+    <div class="top">
+      <div>
+        <div class="d">${d.n}${d.id === hoyId ? ' · es hoy' : ''}</div>
+        <h3>Tu plato es ${frase(d.r)}</h3>
+      </div>
+      <span class="tag">HIPOCALÓRICO</span>
+    </div>
+    <div class="platebar">${barras(d.r)}</div>
+    <div class="legend">${d.r.map(x => `<span><u style="background:${x.c}"></u>${x.l} ${x.p}%</span>`).join('')}</div>`;
+
+  let acum = 0;
+  const grad = d.r.map(x => { const ini = acum; acum += x.p; return `${x.c} ${ini}% ${acum}%`; }).join(',');
+  const pl = $('plate');
+  pl.style.background = 'conic-gradient(' + grad + ')';
+  $('platePct').textContent = d.r[0].p + '%';
+  pl.querySelector('small').textContent = d.r[0].l.toLowerCase();
+
+  $('plist').innerHTML = d.r.map(x => `<div class="pitem"><u style="background:${x.c}"></u>${x.l}<b>${x.p}%</b></div>`).join('');
+
+  $('tip').textContent =
+    d.r.length === 1 ? 'Hoy no lleva proteína ni cereal: el plato es 100% verdura. Sazoná con limón, ajo, paprika y hierbas.'
+    : d.r.length === 2 ? 'Mitad del plato verdura, mitad proteína. Completá con una ensalada extra de libre consumo.'
+    : 'Mitad verdura; el resto dividido en partes iguales entre proteína y cereal (arroz o fideos).';
+}
+
+function render(){
+  renderDays();
+  const d = DAYS.find(x => x.id === cur);
+  renderComidas(d);
+  renderPlato(d);
+}
+
+render();
+</script>
+</body>
+</html>
