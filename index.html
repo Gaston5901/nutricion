@@ -51,27 +51,75 @@ ul{margin:0;padding:0;list-style:none}
 }
 .chip b{color:#fde68a}
 
-/* ---------- STICKY DÍAS ---------- */
-.daybar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+/* ---------- DÍAS ---------- */
+.daybar{background:#fff;border-bottom:1px solid var(--line)}
 .daybar .wrap{padding-top:10px;padding-bottom:10px}
 .daybar h2{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px;font-weight:700}
-.days{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-@media(min-width:640px){.days{grid-template-columns:repeat(4,1fr)}}
-@media(min-width:900px){.days{grid-template-columns:repeat(7,1fr)}}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
 .day{
-  position:relative;text-align:left;padding:10px 10px 11px;border-radius:14px;
+  position:relative;text-align:center;padding:9px 2px 8px;border-radius:12px;
   background:#f8fafc;border:1.5px solid var(--line);transition:.18s;overflow:hidden;
 }
-.day span.n{display:block;font-weight:800;font-size:15px}
-.day span.s{display:block;font-size:10.5px;color:var(--muted);margin-top:1px;line-height:1.25}
-.day .bar{display:flex;height:5px;border-radius:99px;overflow:hidden;margin-top:8px;background:#e2e8f0}
+.day .ini{display:block;font-weight:800;font-size:16px;line-height:1.1}
+.day span.n,.day span.s{display:none}
+.day .bar{display:flex;height:4px;border-radius:99px;overflow:hidden;margin-top:6px;background:#e2e8f0}
 .day .bar i{display:block;height:100%}
 .day.on{background:linear-gradient(140deg,var(--g2),var(--g3));border-color:var(--g3);box-shadow:0 6px 16px rgba(16,185,129,.35);transform:translateY(-1px)}
-.day.on span.n,.day.on span.s{color:#fff}
+.day.on span.n,.day.on span.s,.day.on .ini{color:#fff}
 .day.on .bar{background:rgba(255,255,255,.3)}
 .day .hoy{
-  position:absolute;top:6px;right:6px;background:#fde68a;color:#78350f;
-  font-size:9px;font-weight:800;padding:2px 6px;border-radius:99px;letter-spacing:.3px
+  position:absolute;top:3px;right:3px;background:#fde68a;color:#78350f;
+  width:8px;height:8px;padding:0;font-size:0;border-radius:50%
+}
+@media(min-width:640px){
+  .days{grid-template-columns:repeat(4,1fr);gap:8px}
+  .day{text-align:left;padding:10px 10px 11px;border-radius:14px}
+  .day .ini{display:none}
+  .day span.n,.day span.s{display:block}
+  .day .bar{height:5px;margin-top:8px}
+  .day .hoy{top:6px;right:6px;width:auto;height:auto;padding:2px 6px;font-size:9px;border-radius:99px}
+}
+@media(min-width:900px){.days{grid-template-columns:repeat(7,1fr)}}
+
+/* detalle del día elegido (solo celular) */
+.dayinfo{
+  margin-top:10px;background:#f8fafc;border:1px solid var(--line);border-radius:14px;
+  padding:10px 12px;display:flex;flex-direction:column;gap:9px;
+}
+@media(min-width:640px){.dayinfo{display:none}}
+.di-row{display:flex;align-items:center;gap:10px}
+.di-ini{
+  width:30px;height:30px;flex-shrink:0;border-radius:9px;display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--g2),var(--g3));color:#fff;font-size:15px;font-weight:800;
+  box-shadow:0 4px 10px rgba(16,185,129,.3)
+}
+.di-txt{min-width:0;flex:1}
+.di-txt b{display:block;font-size:14.5px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.di-txt small{display:block;font-size:11.5px;color:var(--muted);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.di-hoy{flex-shrink:0;background:#fde68a;color:#78350f;font-size:9.5px;font-weight:800;padding:3px 8px;border-radius:99px;letter-spacing:.3px}
+.di-legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:11.5px;font-weight:700;color:var(--muted)}
+.di-legend span{display:flex;align-items:center;gap:5px}
+.di-legend u{width:10px;height:10px;border-radius:3px;display:block;flex-shrink:0}
+
+/* ---------- BARRA FIJA: INICIAL DEL DÍA ---------- */
+.minibar{
+  position:fixed;top:0;left:0;right:0;z-index:40;width:100%;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+  transform:translateY(-100%);opacity:0;pointer-events:none;transition:transform .22s ease,opacity .22s ease;
+}
+.minibar.show{transform:none;opacity:1;pointer-events:auto}
+.minibar .wrap{display:flex;align-items:center;gap:10px;padding:8px var(--sp);text-align:left}
+.minibar .ini{
+  width:32px;height:32px;flex-shrink:0;border-radius:10px;display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--g2),var(--g3));color:#fff;font-size:16px;font-weight:800;
+  box-shadow:0 4px 10px rgba(16,185,129,.35)
+}
+.minibar .txt{min-width:0;flex:1}
+.minibar .txt b{display:block;font-size:13.5px;font-weight:800;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.minibar .txt small{display:block;font-size:10.5px;color:var(--muted);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.minibar .pct{
+  flex-shrink:0;background:var(--g4);color:var(--g1);font-size:11px;font-weight:800;
+  padding:4px 9px;border-radius:99px;white-space:nowrap
 }
 
 /* ---------- SECCIONES ---------- */
@@ -125,7 +173,10 @@ main{padding-top:18px;display:flex;flex-direction:column;gap:16px}
 .warn{background:#fffbeb;border-color:#fde68a}
 .warn .b{background:#fef3c7;color:#92400e}
 .warn .lrow b{color:#92400e}
-.foot{text-align:center;color:var(--muted);font-size:12px;padding:24px 16px 8px}
+.foot{text-align:center;color:var(--muted);font-size:12px;padding:16px 16px 8px;border-top:1px solid var(--line)}
+.foot .copy{font-weight:600}
+.foot .copy strong{color:var(--g1);font-weight:800}
+.foot .credit{margin-top:3px;font-size:11.5px}
 .fade{animation:f .35s ease}
 @keyframes f{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -137,11 +188,11 @@ main{padding-top:18px;display:flex;flex-direction:column;gap:16px}
   <div class="wrap">
     <span class="eyebrow">🍽️ Plan semanal hipocalórico</span>
     <h1>Plan Nutricional de <strong>GASTON</strong></h1>
-    <p>Este plan es <strong style="color:#fff">para Gaston</strong> ·según indicaciones de la Lic. María Jorgelina Arce</p>
+    <p>Este plan es <strong style="color:#fff">para Gaston</strong></p>
     <div class="hero-chips">
       <div class="chip">💧 Agua <b>3 L / día</b></div>
       <div class="chip">🍽️ <b>5 a 6 comidas</b></div>
-      <div class="chip">🥗 Frutas y verduras <b>5 por día</b></div>
+      <!-- <div class="chip">🥗 Frutas y verduras <b>5 por día</b></div> -->
     </div>
   </div>
 </header>
@@ -150,8 +201,11 @@ main{padding-top:18px;display:flex;flex-direction:column;gap:16px}
   <div class="wrap">
     <h2>Elegí el día 👇</h2>
     <div class="days" id="days"></div>
+    <div class="dayinfo" id="dayinfo"></div>
   </div>
 </nav>
+
+<button class="minibar" id="minibar" aria-label="Volver a elegir el día"></button>
 
 <main class="wrap">
 
@@ -203,7 +257,10 @@ main{padding-top:18px;display:flex;flex-direction:column;gap:16px}
     </div>
   </section>
 
-  <p class="foot">Plan nutricional de <strong>GASTON</strong> · Definido por la Lic. María Jorgelina Arce</p>
+  <footer class="foot">
+    <p class="copy">&copy; <span id="year">2026</span> · Plan Nutricional de <strong>GASTON</strong></p>
+    <!-- <p class="credit">Definido por la Lic. María Jorgelina Arce</p> -->
+  </footer>
 </main>
 
 <script>
@@ -224,13 +281,13 @@ const P = { c: CARNE,   l: 'Carne / Proteína' };
 const G = { c: CEREAL,  l: 'Arroz o fideo' };
 
 const DAYS = [
-  { id:'lunes',     n:'Lunes',     tag:'½ verdura · ½ carne',   r:[{...V,p:50},{...P,p:50}],            l:MITAD_CARNE + ' ' + AGUA },
-  { id:'martes',    n:'Martes',    tag:'½ verdura · ¼ carne · ¼ cereal', r:[{...V,p:50},{...P,p:25},{...G,p:25}], l:MITAD_CEREAL + ' ' + AGUA },
-  { id:'miercoles', n:'Miércoles', tag:'½ verdura · ¼ carne · ¼ cereal', r:[{...V,p:50},{...P,p:25},{...G,p:25}], l:MITAD_CEREAL + ' ' + AGUA },
-  { id:'jueves',    n:'Jueves',    tag:'100% verdura',          r:[{...V,p:100}],                      l:SOLO_VERDURA + ' ' + AGUA },
-  { id:'viernes',   n:'Viernes',   tag:'½ verdura · ½ carne',   r:[{...V,p:50},{...P,p:50}],            l:MITAD_CARNE + ' ' + AGUA },
-  { id:'sabado',    n:'Sábado',    tag:'½ verdura · ½ carne',   r:[{...V,p:50},{...P,p:50}],            l:MITAD_CARNE + ' ' + AGUA },
-  { id:'domingo',   n:'Domingo',   tag:'½ verdura · ½ carne',   r:[{...V,p:50},{...P,p:50}],            l:MITAD_CARNE + ' ' + AGUA }
+  { id:'lunes',     n:'Lunes',     i:'L', tag:'½ verdura · ½ carne',   r:[{...V,p:50},{...P,p:50}],            l:MITAD_CARNE + ' ' + AGUA },
+  { id:'martes',    n:'Martes',    i:'M', tag:'½ verdura · ¼ carne · ¼ cereal', r:[{...V,p:50},{...P,p:25},{...G,p:25}], l:MITAD_CEREAL + ' ' + AGUA },
+  { id:'miercoles', n:'Miércoles', i:'X', tag:'½ verdura · ¼ carne · ¼ cereal', r:[{...V,p:50},{...P,p:25},{...G,p:25}], l:MITAD_CEREAL + ' ' + AGUA },
+  { id:'jueves',    n:'Jueves',    i:'J', tag:'100% verdura',          r:[{...V,p:100}],                      l:SOLO_VERDURA + ' ' + AGUA },
+  { id:'viernes',   n:'Viernes',   i:'V', tag:'½ verdura · ½ carne',   r:[{...V,p:50},{...P,p:50}],            l:MITAD_CARNE + ' ' + AGUA },
+  { id:'sabado',    n:'Sábado',    i:'S', tag:'½ verdura · ½ carne',   r:[{...V,p:50},{...P,p:50}],            l:MITAD_CARNE + ' ' + AGUA },
+  { id:'domingo',   n:'Domingo',   i:'D', tag:'½ verdura · ½ carne',   r:[{...V,p:50},{...P,p:50}],            l:MITAD_CARNE + ' ' + AGUA }
 ];
 
 const ORDEN = ['domingo','lunes','martes','miercoles','jueves','viernes','sabado'];
@@ -245,13 +302,27 @@ const frase = r => r.length === 1
 
 function renderDays(){
   $('days').innerHTML = DAYS.map(d => `
-    <button class="day${d.id === cur ? ' on' : ''}" data-id="${d.id}" aria-pressed="${d.id === cur}">
+    <button class="day${d.id === cur ? ' on' : ''}" data-id="${d.id}" aria-pressed="${d.id === cur}" aria-label="${d.n} — ${d.tag}">
       ${d.id === hoyId ? '<span class="hoy">HOY</span>' : ''}
+      <span class="ini">${d.i}</span>
       <span class="n">${d.n}</span>
       <span class="s">${d.tag}</span>
       <span class="bar">${barras(d.r)}</span>
     </button>`).join('');
   $('days').querySelectorAll('.day').forEach(b => b.onclick = () => { cur = b.dataset.id; render(); });
+}
+
+function renderDayInfo(d){
+  $('dayinfo').innerHTML = `
+    <div class="di-row">
+      <span class="di-ini">${d.i}</span>
+      <span class="di-txt">
+        <b>${d.n}</b>
+        <small>${d.tag}</small>
+      </span>
+      ${d.id === hoyId ? '<span class="di-hoy">ES HOY</span>' : ''}
+    </div>
+    <div class="di-legend">${d.r.map(x => `<span><u style="background:${x.c}"></u>${x.l} ${x.p}%</span>`).join('')}</div>`;
 }
 
 function renderComidas(d){
@@ -290,12 +361,35 @@ function renderPlato(d){
     : 'Mitad verdura; el resto dividido en partes iguales entre proteína y cereal (arroz o fideos).';
 }
 
+function renderMinibar(d){
+  $('minibar').innerHTML = `
+    <span class="wrap">
+      <span class="ini">${d.i}</span>
+      <span class="txt">
+        <b>${d.n}${d.id === hoyId ? ' · es hoy' : ''}</b>
+        <small>${d.tag}</small>
+      </span>
+      <span class="pct">${d.r[0].p}% verdura</span>
+    </span>`;
+}
+
 function render(){
   renderDays();
   const d = DAYS.find(x => x.id === cur);
+  renderDayInfo(d);
   renderComidas(d);
   renderPlato(d);
+  renderMinibar(d);
 }
+
+/* la barrita aparece cuando la grilla de días sale de la pantalla */
+$('minibar').onclick = () => document.querySelector('.daybar').scrollIntoView({ behavior:'smooth', block:'start' });
+new IntersectionObserver(
+  ([e]) => $('minibar').classList.toggle('show', !e.isIntersecting),
+  { threshold: 0 }
+).observe(document.querySelector('.daybar'));
+
+$('year').textContent = new Date().getFullYear();
 
 render();
 </script>
